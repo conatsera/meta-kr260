@@ -1,0 +1,11 @@
+/dts-v1/;
+/plugin/;
+/ {
+    fragment@0 {
+        target = <&fpga_PR>;
+    	overlay0: __overlay__ {
+            firmware-name = "kr260-accel-firmware.bin";
+            partial-fpga-config ;
+        };
+    };
+};

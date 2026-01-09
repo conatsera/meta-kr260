@@ -1,0 +1,13 @@
+diff --git a/runtime_src/xrt/device/hal2.cpp b/runtime_src/xrt/device/hal2.cpp
+index d9352b716e..b18a5bbb23 100644
+--- a/runtime_src/xrt/device/hal2.cpp
++++ b/runtime_src/xrt/device/hal2.cpp
+@@ -274,7 +274,7 @@ hal::operations_result<int>
+ device::
+ loadXclBin(const xclBin* xclbin)
+ {
+-  m_handle.load_xclbin(xclbin);
++  m_handle.load_xclbin(xclbin->m_header.uuid);
+ 
+   // refresh device info on successful load
+   std::lock_guard<std::mutex> lk(m_mutex);

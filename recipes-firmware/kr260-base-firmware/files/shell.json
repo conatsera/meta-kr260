@@ -1,0 +1,12 @@
+{
+  "shell_type" : "PL_DFX",
+  "num_pl_slots": "1",
+  "reg_base" : "0xBFFF0000",
+    "isolation_slots": [
+		{
+			"offset": ["0x0"],
+			"values": ["0x01"]
+		}
+  ],
+  "load_base_design": "no"
+}

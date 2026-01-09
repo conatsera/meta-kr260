@@ -1,0 +1,25 @@
+diff --git a/runtime_src/core/edge/user/shim.cpp b/runtime_src/core/edge/user/shim.cpp
+index fff566218f..5665870a9d 100644
+--- a/runtime_src/core/edge/user/shim.cpp
++++ b/runtime_src/core/edge/user/shim.cpp
+@@ -180,9 +180,9 @@ mapKernelControl(const std::vector<std::pair<uint64_t, size_t>>& offsets)
+           return -errno;
+         }
+         size_t psize = getpagesize();
+-        ptr = mmap(0, info.cu_size, PROT_READ | PROT_WRITE, MAP_SHARED, mKernelFD, info.apt_idx*psize);
++        ptr = mmap(0, 8, PROT_READ | PROT_WRITE, MAP_SHARED, mKernelFD, info.apt_idx*psize);
+         if (ptr == MAP_FAILED) {
+-          xclLog(XRT_ERROR, "%s: Map failed for aperture 0x%lx, size 0x%lx", __func__, offset_it->first, info.cu_size);
++          xclLog(XRT_ERROR, "%s: Map failed for aperture 0x%lx, size 0x%lx, errno 0x%lx", __func__, offset_it->first, 8, errno);
+           return -1;
+         }
+         mKernelControl.insert(it, std::pair<uint64_t, uint32_t *>(offset_it->first, (uint32_t *)ptr));
+@@ -794,7 +794,7 @@ xclLoadAxlf(const axlf *buffer)
+     }
+   #endif
+ 
+-  ret = ioctl(mKernelFD, DRM_IOCTL_ZOCL_READ_AXLF, &axlf_obj);
++  //ret = ioctl(mKernelFD, DRM_IOCTL_ZOCL_READ_AXLF, &axlf_obj);
+ 
+   xclLog(XRT_INFO, "%s: flags 0x%x, return %d", __func__, flags, ret);
+   return ret ? -errno : ret;

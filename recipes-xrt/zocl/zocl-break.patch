@@ -1,0 +1,42 @@
+diff --git a/common/zocl_drv.c b/common/zocl_drv.c
+index c083cd7f24..d2852fe082 100644
+--- a/common/zocl_drv.c
++++ b/common/zocl_drv.c
+@@ -36,6 +36,8 @@
+ #include "zocl_error.h"
+ #include "zocl_ert_intc.h"
+ 
++#include <linux/kgdb.h>
++
+ #define ZOCL_DRIVER_NAME        "zocl"
+ #define ZOCL_DRIVER_DESC        "Zynq BO manager"
+ 
+@@ -1300,6 +1302,7 @@ MODULE_DEVICE_TABLE(of, zocl_drm_of_match);
+  */
+ static int zocl_drm_platform_probe(struct platform_device *pdev)
+ {
++	kgdb_breakpoint();
+ 	const struct of_device_id *id;
+ 	struct drm_device *drm;
+ 	struct drm_zocl_dev	*zdev;
+diff --git a/edge/zocl_edge_xclbin.c b/edge/zocl_edge_xclbin.c
+index 29303ab450..f1dfcf24e7 100644
+--- a/edge/zocl_edge_xclbin.c
++++ b/edge/zocl_edge_xclbin.c
+@@ -21,6 +21,8 @@
+ #include "xrt_xclbin.h"
+ #include "xclbin.h"
+ 
++#include <linux/kgdb.h>
++
+ static inline u32 xclbin_protocol(u32 prop)
+ {
+ 	u32 intr_id = prop & IP_CONTROL_MASK;
+@@ -105,6 +107,7 @@ int
+ zocl_xclbin_read_axlf(struct drm_zocl_dev *zdev, struct drm_zocl_axlf *axlf_obj,
+ 	struct kds_client *client, int slot_id)
+ {
++	kgdb_breakpoint();
+ 	struct axlf axlf_head;
+ 	struct axlf *axlf = NULL;
+ 	long axlf_size;
