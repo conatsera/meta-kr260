@@ -11,7 +11,6 @@ rootfs_name=@@RAMDISK_IMAGE@@
 
 # Close pmufw node so that linux can't send small fragments to pmufw
 zynqmp pmufw node close
-
 setenv devtype usb
 setenv devnum 0
 setenv distro_bootpart 1
@@ -26,6 +25,7 @@ fi
 if test -e ${devtype} ${devnum}:${distro_bootpart} /system.dtb; then
         echo "Loading Device tree (system.dtb) from ${devtype} ${devnum}:${distro_bootpart}"
         fatload ${devtype} ${devnum}:${distro_bootpart} @@DEVICETREE_ADDRESS@@ system.dtb;
+        fdt addr $fdtcontroladdr
         setenv fdtcontroladdr @@DEVICETREE_ADDRESS@@
         fdt get value bootargs /chosen bootargs
 fi
@@ -45,7 +45,7 @@ if test -e ${devtype} ${devnum}:${distro_bootpart} /${rootfs_name} && test "${sk
         fatload ${devtype} ${devnum}:${distro_bootpart} @@RAMDISK_IMAGE_ADDRESS@@ ${rootfs_name};
         @@KERNEL_BOOTCMD@@ @@KERNEL_LOAD_ADDRESS@@ @@RAMDISK_IMAGE_ADDRESS@@ ${fdtcontroladdr}
 fi
-setenv bootargs $bootargs root=LABEL=root root=/dev/${bootdev}2 ro rootwait coresight_cpu_debug.enable=1 debug sysrq_always_enabled cma=1024M nokaslr maxcpus=1 nr_cpus=1 @@KERNEL_COMMAND_APPEND@@
+setenv bootargs $bootargs root=LABEL=root root=/dev/sda2 ro rootwait coresight_cpu_debug.enable=1 debug sysrq_always_enabled cma=1024M nokaslr maxcpus=1 nr_cpus=1 @@KERNEL_COMMAND_APPEND@@
 mw 0xff0a0018 0x1f0000
 mw 0xff0a02c4 0x1f
 mw 0xff0a02c8 0x1f
